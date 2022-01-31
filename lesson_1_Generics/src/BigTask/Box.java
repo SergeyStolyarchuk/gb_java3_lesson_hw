@@ -2,51 +2,49 @@ package BigTask;
 
 import java.util.ArrayList;
 
-public class Box <T extends Fruits>{
+public class Box<T extends Fruits> {
 
     private ArrayList<T> arrListBox;
     private int countInBox = 0;
-    private String typeOfFruit;
 
-    public float getWeight(){
-        if (!(arrListBox == null || countInBox == 0)) {
-            return arrListBox.get(0).getWeight() * countInBox;
+
+    public float getWeight() {
+        float weight = 0.0f;
+        if (arrListBox != null || countInBox != 0) {
+            for (T listBox : arrListBox) {
+                weight += listBox.getWeight();
+            }
+            return weight;
         } else {
             return 0.0f;
         }
     }
 
-    public boolean compareBox (Box anotherBox) {
+    public boolean compareBox(Box<?> anotherBox) {
         return this.getWeight() == anotherBox.getWeight();
     }
 
-    public void shiftFruitsToAnotherBox(Box anotherBox) {
-        if (anotherBox.getTypeOfFruit().equals(typeOfFruit)){
-            for (T listBox : arrListBox) {
-                anotherBox.addFruitToBox(listBox);
-            }
-            arrListBox.clear();
-            countInBox = 0;
-        } else {
-            System.out.println("Несовместимые коробки");
+    public void shiftFruitsToAnotherBox(Box<T> anotherBox) {
+        for (T listBox : arrListBox) {
+            anotherBox.addFruitToBox(listBox);
         }
+        arrListBox.clear();
+        countInBox = 0;
     }
 
-    public void addFruitToBox (T fruit) {
+    public void addFruitToBox(T fruit) {
         if (arrListBox == null) {
             arrListBox = new ArrayList<>();
             arrListBox.add(fruit);
             countInBox++;
-            typeOfFruit = arrListBox.get(0).getType();
+
         } else {
             arrListBox.add(fruit);
             countInBox++;
-            typeOfFruit = arrListBox.get(0).getType();
+
         }
 
     }
 
-    public String getTypeOfFruit() {
-        return typeOfFruit;
-    }
+
 }
